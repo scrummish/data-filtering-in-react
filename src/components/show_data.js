@@ -7,26 +7,71 @@ class ShowData extends Component {
     super(props);
 
     this.state = {
-      parsedData: undefined
+      filteredData: undefined,
+      femaleFilter: false,
+      maleFilter: false,
+      emailFilter: false
     }
+    this.filterByGenderFemale = this.filterByGenderFemale.bind(this);
+    this.filterByGenderMale = this.filterByGenderMale.bind(this);
+    this.filterByEmail = this.filterByEmail.bind(this);
   }
-  componentDidmount(){
 
+  filterByGenderFemale() {
+    console.log('working')
+  }
+
+  filterByGenderMale() {
+    console.log('working2')
+  }
+
+  filterByEmail() {
+    console.log('workindfsg')
   }
 
   render() {
-    const data = this.state.parsedData || mockdata;
+    const data = this.state.filteredData || mockdata;
     
     return (
-      <div className="show-data">
-        <ul>
-          {
-            data.map((person,index)=>{
-              const test = JSON.stringify(person);
-              return <li key={person.id}>{test}</li>
-            })
-          }
-        </ul>
+      <div>  
+        <form className="form-style">
+          <label>
+            Filter By Gender (Female):
+            <input
+              name="Female"
+              type="checkbox"
+              checked={this.state.femaleFilter}
+              onChange={this.filterByGenderFemale} />
+          </label>
+          <br />
+          <label>
+            Filter By Gender (Male):
+            <input
+              name="Male"
+              type="checkbox"
+              checked={this.state.maleFilter}
+              onChange={this.filterByGenderMale} />
+          </label>
+          <br />
+          <label>
+            Filter By Email (gmail):
+            <input
+              name="gmail"
+              type="checkbox"
+              checked={this.state.emailFilter}
+              onChange={this.filterByEmail} />
+          </label>
+        </form>
+        <div className="show-data">
+          <ul>
+            {
+              data.map((person,index)=>{
+                const test = JSON.stringify(person);
+                return <li key={person.id}>{test}</li>
+              })
+            }
+          </ul>
+        </div>
       </div>
     );
   }

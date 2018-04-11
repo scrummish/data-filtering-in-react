@@ -22,10 +22,13 @@
   font-size: large;
 }
 .show-data{
-  max-width: 50vw;
+  max-width: 60vw;
   background-color: #222;
   overflow: auto;
   color: grey;
+}
+.form-style{
+  float: right;
 }
 
 @keyframes App-logo-spin {
