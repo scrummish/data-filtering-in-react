@@ -7,65 +7,77 @@ class ShowData extends Component {
     super(props);
 
     this.state = {
-      filteredData: undefined,
+      filteredData: mockdata,
+      previousState: undefined,
       femaleFilter: false,
-      maleFilter: false,
       emailFilter: false
     }
-    this.filterByGenderFemale = this.filterByGenderFemale.bind(this);
-    this.filterByGenderMale = this.filterByGenderMale.bind(this);
-    this.filterByEmail = this.filterByEmail.bind(this);
+    
+    this.filter = this.filter.bind(this);
   }
 
-  filterByGenderFemale() {
-    console.log('working')
-  }
+  filter(e) {
+    let newData = mockdata;
+    const state = {};
+    const checked = e.target.name;
 
-  filterByGenderMale() {
-    console.log('working2')
-  }
+    new Promise((resolve, reject)=> {
+      setTimeout(() => resolve(1), 1);
 
-  filterByEmail() {
-    console.log('workindfsg')
+    }).then((result) => {
+      if (this.state.emailFilter || checked === 'emailFilter' ) {
+        if (checked === 'emailFilter' && this.state.emailFilter) {
+          state.emailFilter = '!prevState.emailFilter';
+        } else {
+          newData = newData.filter(person => person.email.includes('@gmail'));
+          state.emailFilter = '!prevState.emailFilter';
+        }
+      }
+    }).then(() => { 
+      if (this.state.femaleFilter || checked === 'femaleFilter' ){
+        if (checked === 'femaleFilter' && this.state.femaleFilter) {
+          state.femaleFilter = '!prevState.femaleFilter';
+        } else {
+          newData = newData.filter(person => person.gender === "Female");
+          state.femaleFilter = '!prevState.femaleFilter';
+        }
+      } 
+    }).then(() => { 
+      this.setState(function(prevState, props){
+        return {
+          [checked]: !prevState[checked],
+          filteredData: newData
+        }
+      });
+    })
   }
 
   render() {
-    const data = this.state.filteredData || mockdata;
-    
     return (
       <div>  
         <form className="form-style">
           <label>
             Filter By Gender (Female):
             <input
-              name="Female"
+              name="femaleFilter"
               type="checkbox"
               checked={this.state.femaleFilter}
-              onChange={this.filterByGenderFemale} />
-          </label>
-          <br />
-          <label>
-            Filter By Gender (Male):
-            <input
-              name="Male"
-              type="checkbox"
-              checked={this.state.maleFilter}
-              onChange={this.filterByGenderMale} />
+              onChange={this.filter} />
           </label>
           <br />
           <label>
             Filter By Email (gmail):
             <input
-              name="gmail"
+              name="emailFilter"
               type="checkbox"
               checked={this.state.emailFilter}
-              onChange={this.filterByEmail} />
+              onChange={this.filter} />
           </label>
         </form>
         <div className="show-data">
           <ul>
             {
-              data.map((person,index)=>{
+              this.state.filteredData.map((person,index)=>{
                 const test = JSON.stringify(person);
                 return <li key={person.id}>{test}</li>
               })
@@ -78,6 +90,7 @@ class ShowData extends Component {
 }
 
 export default ShowData;
+
 
 // Change the mockdata as fit to have different data and better results.
 
